@@ -1,0 +1,15 @@
+{
+  "name": "@kolang/grammar",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "گرامر برجسته‌سازی نحو زبان کلنگ — منبع حقیقت",
+  "main": "kolang.grammar.json",
+  "files": ["kolang.grammar.json", "textmate/", "codemirror/", "README.md"],
+  "scripts": {
+    "sync:vscode": "bash scripts/sync-vscode.sh",
+    "sync:web": "bash scripts/sync-web.sh"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/faralidev/kolang-grammar",
+  "keywords": ["kolang", "کلنگ", "grammar", "textmate", "codemirror", "highlighting", "persian"]
+}
