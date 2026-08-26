@@ -1,16 +1,30 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "_comment": "GENERATED — do not edit by hand. Run: node scripts/generate.js",
+  "_commentFa": "خروجی خودکار از kolang.grammar.json + keywords.json — دستی ویرایش نکنید؛ با «node scripts/generate.js» بازتولید شود.",
   "name": "Kolang",
   "scopeName": "source.kolang",
-  "patterns": [{ "include": "#expression" }],
+  "patterns": [
+    {
+      "include": "#expression"
+    }
+  ],
   "repository": {
     "comment-block": {
       "_comment": "Block comment: // ... // (must precede line comment rule)",
       "name": "comment.block.kolang",
       "begin": "//",
       "end": "//|\\n",
-      "beginCaptures": { "0": { "name": "punctuation.definition.comment.begin.kolang" } },
-      "endCaptures": { "0": { "name": "punctuation.definition.comment.end.kolang" } }
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.begin.kolang"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.end.kolang"
+        }
+      }
     },
     "comment-line": {
       "name": "comment.line.kolang",
@@ -21,15 +35,32 @@
       "name": "string.quoted.guillemet.kolang",
       "begin": "«",
       "end": "»|\\n",
-      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.kolang" } },
-      "endCaptures": { "0": { "name": "punctuation.definition.string.end.kolang" } }
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.kolang"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.kolang"
+        }
+      }
     },
     "number": {
       "_comment": "Persian ۰-۹ (U+06F0-06F9) + Latin 0-9. Hex/binary/octal then float/int with digit separators.",
       "patterns": [
-        { "name": "constant.numeric.hex.kolang", "match": "[۰0][xX][0-9a-fA-F۰-۹]+" },
-        { "name": "constant.numeric.binary.kolang", "match": "[۰0][bB][01۰۱]+" },
-        { "name": "constant.numeric.octal.kolang", "match": "[۰0][oO][0-7۰-۷]+" },
+        {
+          "name": "constant.numeric.hex.kolang",
+          "match": "[۰0][xX][0-9a-fA-F۰-۹]+"
+        },
+        {
+          "name": "constant.numeric.binary.kolang",
+          "match": "[۰0][bB][01۰۱]+"
+        },
+        {
+          "name": "constant.numeric.octal.kolang",
+          "match": "[۰0][oO][0-7۰-۷]+"
+        },
         {
           "name": "constant.numeric.decimal.kolang",
           "match": "[۰-۹0-9]+(?:[٬,][۰-۹0-9]{3})*(?:[\\.]|[٫][۰-۹0-9]+)?(?:[eE][+-]?[۰-۹0-9]+)?"
@@ -41,43 +72,65 @@
       "name": "keyword.operator.ezafe.kolang",
       "match": "\\u0650"
     },
-    "operators": {
-      "_comment": "Longest-match-first ordering preserved from kolang-language.js OPERATORS array.",
-      "name": "keyword.operator.kolang",
-      "match": "\\*\\*=|÷/=|÷=|\\*\\*|÷/|<<|>>|->|\\|>|==|<=|>=|\\+=|-=|\\*=|%=|÷|<|>|=|%|\\+|-|\\*|×"
-    },
-    "punctuation": {
-      "name": "punctuation.kolang",
-      "match": "[:\\[\\](){},]"
-    },
-    "control-keyword": {
-      "name": "keyword.control.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(اگر|وگرنه|تاوقتی|برای|از|تا|گام|در|بپا|درنهایت|اتمام|بروبعدی)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
-    },
-    "declaration-keyword": {
-      "_comment": "تعریف/گونه/رابط/وارث/رهی. The type-name lookahead (expectType) cannot be expressed in TextMate; the next identifier is matched as a type name via the type-introduction rule below.",
-      "name": "keyword.declaration.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(تعریف|گونه|رابط|وارث|رهی)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
-    },
     "type-introduction": {
       "_comment": "After گونه/رابط/وارث the next identifier is a type/class name. Captures the keyword + name as one construct (best-effort approximation of expectType lookahead).",
       "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(گونه|رابط|وارث)\\s+([\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*)",
       "captures": {
-        "1": { "name": "keyword.declaration.kolang" },
-        "2": { "name": "entity.name.type.kolang" }
+        "1": {
+          "name": "keyword.declaration.kolang"
+        },
+        "2": {
+          "name": "entity.name.type.kolang"
+        }
       }
     },
     "definition-introduction": {
       "_comment": "تعریف name( → function definition. Captures keyword + function name.",
       "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(تعریف)\\s+([\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*)\\s*(?=\\()",
       "captures": {
-        "1": { "name": "keyword.declaration.kolang" },
-        "2": { "name": "entity.name.function.kolang" }
+        "1": {
+          "name": "keyword.declaration.kolang"
+        },
+        "2": {
+          "name": "entity.name.function.kolang"
+        }
       }
+    },
+    "function-call": {
+      "_comment": "Plain identifier immediately followed by '(' → user function call. Comes after all classified keywords/builtins so those win.",
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])([\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*)(?=\\s*\\()",
+      "captures": {
+        "1": {
+          "name": "entity.name.function.call.kolang"
+        }
+      }
+    },
+    "identifier": {
+      "_comment": "Plain identifier — Persian letters (Arabic block, excluding combining diacritics 0x064B-0x065F) + Latin + '_' + ZWNJ U+200C (after first char).",
+      "name": "variable.other.kolang",
+      "match": "[\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*"
+    },
+    "operators": {
+      "_comment": "Longest-match-first ordering derived from kolang.grammar.json operators.",
+      "name": "keyword.operator.kolang",
+      "match": "÷/=|\\*\\*=|÷/|==|<=|>=|<<|>>|\\|>|->|\\+=|-=|×=|÷=|\\*=|%=|\\*\\*|\\+|-|×|\\*|÷|%|<|>|\\u0650|="
+    },
+    "punctuation": {
+      "name": "punctuation.kolang",
+      "match": "[:\\[\\](){}«»،؛]"
+    },
+    "control-keyword": {
+      "name": "keyword.control.kolang",
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(اتمام|از|اگر|برای|بروبعدی|بپا|تا|تاوقتی|در|درنهایت|وگرنه|گام)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+    },
+    "declaration-keyword": {
+      "_comment": "پوشش در قاعدهٔ جداگانهٔ decorator-keyword می‌آید.",
+      "name": "keyword.declaration.kolang",
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(تعریف|رابط|رهی|وارث|گونه)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
     "copula-keyword": {
       "name": "keyword.other.copula.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(باشد|نباشد)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(است|باشد|نباشد)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
     "logical-keyword": {
       "name": "keyword.operator.logical.kolang",
@@ -85,7 +138,12 @@
     },
     "other-keyword": {
       "name": "keyword.other.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(بانام|به|و)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(با|بانام|به|مثل|و)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+    },
+    "concurrency-keyword": {
+      "_comment": "واژه‌های همروندی (برو، ببند، بسته‌است، کانال، …) — از keywords.json.",
+      "name": "keyword.control.kolang",
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(ببند|برو|بستهاست|بسته‌است|کانال)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
     "exception-class": {
       "name": "support.class.exception.kolang",
@@ -93,11 +151,11 @@
     },
     "builtin-function": {
       "name": "support.function.builtin.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(بخوان|بسته‌است|ببند|تأخیری|بساز‌از|بساز|بنویس|برگردان|بیافزا|حذف‌کن|حذفکن|بده|بیار|بگیر)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(بده|برگردان|بساز|بسازاز|بساز‌از|بنویس|بگیر|بیار|بیافزا|تأخیری|حذفکن|حذف‌کن)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
     "builtin-type": {
       "name": "support.type.builtin.kolang",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(صحیح|اعشاری|متن|فهرست|گنجه|قفسه|بقچه|نگاشت|بازه|طول|نوع|جمع|کمینه|بیشینه|مرتب|شمارش|پالایش|بازکردن|اجرا|کانال|هویت|برو)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(طول|نوع|بازه|جمع|کمینه|بیشینه|مرتب|مطلق|گرد|معکوس|شمارش|بقچه|نگاشت|پالایش|ویژگی|دارد|تنظیم‌ویژگی|هویت|اجرا|خطا|کانال|صحیح|اعشاری|متن|بولی|فهرست|گنجه|قفسه|مجموعه|بازکردن)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
     "module-name": {
       "name": "entity.name.namespace.kolang",
@@ -119,42 +177,83 @@
       "name": "meta.decorator.kolang",
       "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(پوشش)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
-    "function-call": {
-      "_comment": "Plain identifier immediately followed by '(' → user function call. Comes after all classified keywords/builtins so those win.",
-      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])([\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*)(?=\\s*\\()",
-      "captures": { "1": { "name": "entity.name.function.call.kolang" } }
-    },
-    "identifier": {
-      "_comment": "Plain identifier — Persian letters (Arabic block, excluding combining diacritics 0x064B-0x065F) + Latin + '_' + ZWNJ U+200C (after first char).",
-      "name": "variable.other.kolang",
-      "match": "[\\u0621-\\u064A\\u0670-\\u06FFA-Za-z_][\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C]*"
-    },
     "expression": {
       "patterns": [
-        { "include": "#comment-block" },
-        { "include": "#comment-line" },
-        { "include": "#string" },
-        { "include": "#number" },
-        { "include": "#ezafe" },
-        { "include": "#definition-introduction" },
-        { "include": "#type-introduction" },
-        { "include": "#control-keyword" },
-        { "include": "#declaration-keyword" },
-        { "include": "#copula-keyword" },
-        { "include": "#logical-keyword" },
-        { "include": "#other-keyword" },
-        { "include": "#exception-class" },
-        { "include": "#builtin-function" },
-        { "include": "#builtin-type" },
-        { "include": "#module-name" },
-        { "include": "#boolean-literal" },
-        { "include": "#null-literal" },
-        { "include": "#self-super" },
-        { "include": "#decorator-keyword" },
-        { "include": "#operators" },
-        { "include": "#function-call" },
-        { "include": "#identifier" },
-        { "include": "#punctuation" }
+        {
+          "include": "#comment-block"
+        },
+        {
+          "include": "#comment-line"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#ezafe"
+        },
+        {
+          "include": "#definition-introduction"
+        },
+        {
+          "include": "#type-introduction"
+        },
+        {
+          "include": "#control-keyword"
+        },
+        {
+          "include": "#declaration-keyword"
+        },
+        {
+          "include": "#copula-keyword"
+        },
+        {
+          "include": "#logical-keyword"
+        },
+        {
+          "include": "#other-keyword"
+        },
+        {
+          "include": "#concurrency-keyword"
+        },
+        {
+          "include": "#exception-class"
+        },
+        {
+          "include": "#builtin-function"
+        },
+        {
+          "include": "#builtin-type"
+        },
+        {
+          "include": "#module-name"
+        },
+        {
+          "include": "#boolean-literal"
+        },
+        {
+          "include": "#null-literal"
+        },
+        {
+          "include": "#self-super"
+        },
+        {
+          "include": "#decorator-keyword"
+        },
+        {
+          "include": "#operators"
+        },
+        {
+          "include": "#function-call"
+        },
+        {
+          "include": "#identifier"
+        },
+        {
+          "include": "#punctuation"
+        }
       ]
     }
   }

@@ -4,10 +4,17 @@
   "type": "module",
   "description": "گرامر برجسته‌سازی نحو زبان کلنگ — منبع حقیقت",
   "main": "kolang.grammar.json",
+  "exports": {
+    ".": "./kolang.grammar.json",
+    "./grammar.json": "./kolang.grammar.json",
+    "./codemirror/kolang-syntax.js": "./codemirror/kolang-syntax.js",
+    "./textmate/kolang.tmLanguage.json": "./textmate/kolang.tmLanguage.json"
+  },
   "files": ["kolang.grammar.json", "textmate/", "codemirror/", "README.md"],
   "scripts": {
-    "sync:vscode": "bash scripts/sync-vscode.sh",
-    "sync:web": "bash scripts/sync-web.sh"
+    "generate": "node scripts/generate.js",
+    "prepublishOnly": "npm run generate",
+    "sync:vscode": "bash scripts/sync-vscode.sh"
   },
   "license": "MIT",
   "repository": "https://github.com/faralidev/kolang-grammar",
