@@ -149,10 +149,14 @@ function clearPending(state) {
 }
 
 function token(stream, state) {
-  // نظر بلوکی: «// ... //» (در یک خط؛ اگر بسته نشود تا پایان خط ادامه دارد)
+  // نظر بلوکی: «// ... //» (می‌تواند چندخطی باشد؛ تا رسیدن به // پایانی ادامه دارد)
   if (state.inBlockComment) {
-    if (stream.match("//") || stream.eol()) state.inBlockComment = false;
-    else stream.next();
+    if (stream.match("//")) {
+      state.inBlockComment = false;
+    } else {
+      // تا پایان این خط مصرف کن، ولی در حالت نظر بمان تا خط بعدی هم رنگ‌آمیزی شود.
+      stream.skipToEnd();
+    }
     return "comment";
   }
 
