@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #
-# sync-vscode.sh — همگام‌سازی خروجی TextMate با kolang-vscode
+# sync-vscode.sh — sync TextMate output with kolang-vscode
 #
-# خروجی فرمت TextMate (textmate/kolang.tmLanguage.json) را در مخزن
-# kolang-vscode جایگزین می‌کند:
+# Replaces the TextMate-format output (textmate/kolang.tmLanguage.json)
+# in the kolang-vscode repository:
 #   ../kolang-vscode/syntaxes/kolang.tmLanguage.json
 #
-# کاربرد:
+# Usage:
 #   ./scripts/sync-vscode.sh [DEST]
-#   (پیش‌فرض DEST: ../kolang-vscode/syntaxes/kolang.tmLanguage.json)
+#   (DEST defaults to: ../kolang-vscode/syntaxes/kolang.tmLanguage.json)
 
 set -euo pipefail
 
@@ -18,10 +18,10 @@ SOURCE="$ROOT_DIR/textmate/kolang.tmLanguage.json"
 DEST="${1:-$ROOT_DIR/../kolang-vscode/syntaxes/kolang.tmLanguage.json}"
 
 if [ ! -f "$SOURCE" ]; then
-  echo "error: فایل منبع یافت نشد: $SOURCE" >&2
+  echo "error: source file not found: $SOURCE" >&2
   exit 1
 fi
 
 mkdir -p "$(dirname "$DEST")"
 cp "$SOURCE" "$DEST"
-echo "✓ همگام شد: $DEST"
+echo "✓ Synced: $DEST"
