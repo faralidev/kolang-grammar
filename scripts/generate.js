@@ -494,6 +494,11 @@ const tmData = {
   "copula-keyword": { name: "keyword.other.copula.kolang", match: kwRegex(copula) },
   "logical-keyword": { name: "keyword.operator.logical.kolang", match: kwRegex(logical) },
   "other-keyword": { name: "keyword.other.kolang", match: kwRegex(other) },
+  "scope-keyword": {
+    _comment: "واژه‌های دامنه (جهانی، نامحلی) — از keywords.json.",
+    name: "keyword.other.scope.kolang",
+    match: kwRegex(scope)
+  },
   "concurrency-keyword": {
     _comment: "واژه‌های همروندی (برو، ببند، بسته‌است، کانال، …) — از keywords.json.",
     name: "keyword.control.kolang",
@@ -530,6 +535,7 @@ const expressionPatterns = [
   { include: "#copula-keyword" },
   { include: "#logical-keyword" },
   { include: "#other-keyword" },
+  { include: "#scope-keyword" },
   { include: "#concurrency-keyword" },
   { include: "#exception-class" },
   { include: "#builtin-function" },

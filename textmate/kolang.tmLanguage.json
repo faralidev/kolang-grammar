@@ -140,6 +140,11 @@
       "name": "keyword.other.kolang",
       "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(با|بانام|به|مثل|و)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
     },
+    "scope-keyword": {
+      "_comment": "واژه‌های دامنه (جهانی، نامحلی) — از keywords.json.",
+      "name": "keyword.other.scope.kolang",
+      "match": "(?<![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])(جهانی|نامحلی)(?![\\u0621-\\u064A\\u0670-\\u06FFA-Za-z0-9_\\u200C])"
+    },
     "concurrency-keyword": {
       "_comment": "واژه‌های همروندی (برو، ببند، بسته‌است، کانال، …) — از keywords.json.",
       "name": "keyword.control.kolang",
@@ -214,6 +219,9 @@
         },
         {
           "include": "#other-keyword"
+        },
+        {
+          "include": "#scope-keyword"
         },
         {
           "include": "#concurrency-keyword"
