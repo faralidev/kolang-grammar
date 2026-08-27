@@ -1,6 +1,6 @@
 {
   "name": "@kolang/grammar",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "type": "module",
   "description": "گرامر برجسته‌سازی نحو زبان کلنگ — منبع حقیقت",
   "main": "kolang.grammar.json",
@@ -10,7 +10,12 @@
     "./codemirror/kolang-syntax.js": "./codemirror/kolang-syntax.js",
     "./textmate/kolang.tmLanguage.json": "./textmate/kolang.tmLanguage.json"
   },
-  "files": ["kolang.grammar.json", "textmate/", "codemirror/", "README.md"],
+  "files": [
+    "kolang.grammar.json",
+    "textmate/",
+    "codemirror/",
+    "README.md"
+  ],
   "scripts": {
     "generate": "node scripts/generate.js",
     "prepublishOnly": "npm run generate",
@@ -18,5 +23,13 @@
   },
   "license": "MIT",
   "repository": "https://github.com/faralidev/kolang-grammar",
-  "keywords": ["kolang", "کلنگ", "grammar", "textmate", "codemirror", "highlighting", "persian"]
+  "keywords": [
+    "kolang",
+    "کلنگ",
+    "grammar",
+    "textmate",
+    "codemirror",
+    "highlighting",
+    "persian"
+  ]
 }
