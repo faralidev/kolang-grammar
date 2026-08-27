@@ -193,6 +193,7 @@ const CM_HEADER = [
   "// ─────────────────────────────────────────────────────────────────────────────",
   "",
   "import { StreamLanguage, LanguageSupport } from \"@codemirror/language\";",
+  "import { tags } from \"@lezer/highlight\";",
   "",
   "// ─── واژه‌ها (کلیدی از keywords.json؛ سایرین از kolang.grammar.json) ────────"
 ].join("\n");
@@ -326,22 +327,22 @@ function token(stream, state) {
 
 // نگاشت نام توکن به برچسب سبک CodeMirror
 const tokenTable = {
-  keyword: "keyword",
-  definition: "definition",
-  builtin: "standard",
-  typeName: "typeName",
-  namespace: "namespace",
-  exception: "invalid",
-  bool: "bool",
-  null: "null",
-  self: "self",
-  function: "function",
-  variable: "variableName",
-  string: "string",
-  number: "number",
-  comment: "comment",
-  operator: "operator",
-  punctuation: "punctuation"
+  keyword: tags.keyword,
+  definition: tags.definitionKeyword,
+  builtin: tags.standard(tags.function(tags.variableName)),
+  typeName: tags.typeName,
+  namespace: tags.namespace,
+  exception: tags.invalid,
+  bool: tags.bool,
+  null: tags.null,
+  self: tags.self,
+  function: tags.function(tags.variableName),
+  variable: tags.variableName,
+  string: tags.string,
+  number: tags.number,
+  comment: tags.comment,
+  operator: tags.operator,
+  punctuation: tags.punctuation
 };
 
 /** تعریف StreamLanguage برای زبان کلنگ */
