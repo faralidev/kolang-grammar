@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// kolang-editor.js — تکمیل خودکار و hover برای CodeMirror ۶ (مشترک)
+// kolang-editor.js — تکمیل خودکار، hover و ساخت ویرایشگر برای CodeMirror ۶ (مشترک)
 //
 // این فایل تکمیل خودکار (کلیدواژه‌ها، توابع builtin، قطعه‌کدها، روش‌های کلاس)
 // و hover (شرح مستندات) را برای ویرایشگر کلنگ تعریف می‌کند. برخلاف
@@ -9,13 +9,23 @@
 //   import { kolangCompletion, kolangHover } from '@kolang/grammar/codemirror/kolang-editor.js'
 //   const ext = [kolangCompletion(docsData), kolangHover(docsData)]
 //
+// همچنین `createKolangEditor()` (ساخت کامل EditorView با جابه‌جایی تم) و
+// `kolangBaseExtensions()` (فهرست پایه برای مصرف‌کنندگانی که EditorView خودشان
+// را می‌سازند) را صادر می‌کند تا هر مصرف‌کننده تنظیمات اولیه را دستی تکرار نکند.
+//
 // هم kolang-ide و هم kolang-docs می‌توانند از اینجا استفاده کنند. وابستگی‌های
 // CodeMirror از node_modules مصرف‌کننده resolve می‌شوند (همان الگوی peer-dep
 // که kolang-theme.js دارد).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { autocompletion, snippetCompletion } from '@codemirror/autocomplete'
-import { hoverTooltip } from '@codemirror/view'
+import { autocompletion, snippetCompletion, completionKeymap } from '@codemirror/autocomplete'
+import { EditorView, keymap, lineNumbers, hoverTooltip } from '@codemirror/view'
+import { EditorState, Compartment } from '@codemirror/state'
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands'
+import { bracketMatching, syntaxHighlighting } from '@codemirror/language'
+import { searchKeymap } from '@codemirror/search'
+import { kolang } from './kolang-syntax.js'
+import { editorTheme, editorThemeLight, kolangHighlight, kolangHighlightLight } from './kolang-theme.js'
 
 const COMPLETION_RE = /[\u0621-\u064A\u0670-\u06FFA-Za-z0-9_\u200C]*/
 const VALID_FOR_RE = /^[\u0621-\u064A\u0670-\u06FFA-Za-z0-9_\u200C]*$/
@@ -473,4 +483,96 @@ function kolangHover(docsData) {
   return hoverTooltip(kolangHoverSource)
 }
 
-export { kolangCompletion, kolangHover }
+// ─── ساخت ویرایشگر — پایه مشترک + factory ──────────────────────────────────
+
+// The common base extension list for a Kolang editor: line numbers, history,
+// bracket matching, the kolang() language, and the default keymap bundle.
+// Consumers that build their own EditorView (e.g. the IDE, which needs
+// multi-tab + per-state direction) call this instead of createKolangEditor()
+// to get the shared base without duplicating it.
+function kolangBaseExtensions() {
+  return [
+    lineNumbers(),
+    history(),
+    bracketMatching(),
+    kolang(),
+    keymap.of([
+      ...defaultKeymap,
+      ...historyKeymap,
+      ...searchKeymap,
+      ...completionKeymap,
+      indentWithTab,
+    ]),
+  ]
+}
+
+// Factory: builds a complete Kolang EditorView with the common base + consumer
+// extras, plus compartment-based day/night theme swap. Returns { view, setTheme }.
+//
+// opts:
+//   parent     — DOM element or selector string (required)
+//   doc        — initial document string (default '')
+//   theme      — 'dark' | 'light' (default 'dark')
+//   extensions — additional extensions to append (foldGutter, updateListener, lint, etc.)
+//   docs       — if provided, attaches kolangCompletion(docs) + kolangHover(docs)
+//   completion — boolean, default true when docs present (set false to disable)
+//   hover      — boolean, default true when docs present (set false to disable)
+//
+// setTheme(isLight) — reconfigures both compartments; consumer calls this from
+// its own toggle button.
+function createKolangEditor(opts = {}) {
+  const {
+    parent,
+    doc = '',
+    theme = 'dark',
+    extensions = [],
+    docs = null,
+    completion = docs != null,
+    hover = docs != null,
+  } = opts
+
+  const themeCompartment = new Compartment()
+  const highlightCompartment = new Compartment()
+  const isLight = theme === 'light'
+
+  // Build the base. When docs are provided, kolangCompletion(docs) already
+  // returns an autocompletion() extension with the rich source — so we only
+  // add bare autocompletion() when docs is null (no-docs case).
+  const baseExts = [...kolangBaseExtensions()]
+  if (docs == null) {
+    baseExts.push(autocompletion())
+  }
+
+  // Consumer extras + docs-driven completion/hover
+  const consumerExtras = [...extensions]
+  if (docs != null) {
+    if (completion) consumerExtras.push(kolangCompletion(docs))
+    if (hover) consumerExtras.push(kolangHover(docs))
+  }
+
+  const view = new EditorView({
+    parent: typeof parent === 'string' ? document.querySelector(parent) : parent,
+    state: EditorState.create({
+      doc,
+      extensions: [
+        ...baseExts,
+        themeCompartment.of(isLight ? editorThemeLight : editorTheme),
+        highlightCompartment.of(syntaxHighlighting(isLight ? kolangHighlightLight : kolangHighlight)),
+        ...consumerExtras,
+      ],
+    }),
+  })
+
+  function setTheme(isLight) {
+    view.dispatch({
+      effects: [
+        themeCompartment.reconfigure(isLight ? editorThemeLight : editorTheme),
+        highlightCompartment.reconfigure(syntaxHighlighting(isLight ? kolangHighlightLight : kolangHighlight)),
+      ],
+    })
+  }
+
+  return { view, setTheme }
+}
+
+export { kolangCompletion, kolangHover, kolangBaseExtensions, createKolangEditor }
