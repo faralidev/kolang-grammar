@@ -8,6 +8,7 @@
     ".": "./kolang.grammar.json",
     "./grammar.json": "./kolang.grammar.json",
     "./codemirror/kolang-syntax.js": "./codemirror/kolang-syntax.js",
+    "./codemirror/kolang-theme.js": "./codemirror/kolang-theme.js",
     "./textmate/kolang.tmLanguage.json": "./textmate/kolang.tmLanguage.json"
   },
   "files": [
